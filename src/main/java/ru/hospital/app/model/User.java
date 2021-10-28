@@ -12,11 +12,20 @@ import java.util.UUID;
 @NoArgsConstructor
 public class User {
     private UUID id;
+
     private String login;
     private String password;
     private String name;
     private String number;
     private String email;
-    private Date birthdayDate;
 
+    @Override
+    public String toString() {
+        return "User: " +
+                "login='" + login + '\'' +
+                ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

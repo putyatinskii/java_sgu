@@ -1,16 +1,21 @@
 package ru.hospital.app.controller;
 
 
+import org.springframework.ui.Model;
 import ru.hospital.app.model.Doctor;
 import ru.hospital.app.model.Role;
-import ru.hospital.app.model.User;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 public interface HelloController {
 
-    void signUpForUser(User user);
+    String start();
 
-    void signUpForDoctor(Doctor doctor);
+    String errorPage();
 
-    void signIn(String login, String password, Role role);
+    String getsignInForm();
+
+    String signIn(HttpServletRequest request);
 }

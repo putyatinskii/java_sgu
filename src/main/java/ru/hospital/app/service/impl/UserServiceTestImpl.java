@@ -1,7 +1,6 @@
 package ru.hospital.app.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.hospital.app.model.Appointment;
 import ru.hospital.app.model.Record;
@@ -14,6 +13,7 @@ import ru.hospital.app.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -28,8 +28,29 @@ public class UserServiceTestImpl implements UserService {
     private final AppointmentTestRepository appointmentTestRepository;
 
     @Override
-    public void addUser(User user) {
-        userTestRepository.add(user);
+    public User addUser(User user) {
+        return userTestRepository.add(user);
+    }
+
+    @Override
+    public User getUserInfo(UUID id) throws Exception {
+        return userTestRepository.get(id).orElseThrow(Exception::new);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userTestRepository.getUserList();
+    }
+
+    @Override
+    public User updateUser(User user) throws Exception {
+
+        return userTestRepository.update(user);
+    }
+
+    @Override
+    public void deleteUser(UUID id) throws Exception {
+        userTestRepository.deleteUser(id);
     }
 
     @Override
