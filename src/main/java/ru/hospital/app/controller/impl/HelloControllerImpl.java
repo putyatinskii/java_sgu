@@ -1,5 +1,6 @@
 package ru.hospital.app.controller.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,23 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
+@RequiredArgsConstructor
 public class HelloControllerImpl implements HelloController {
 
     private final UserService userService;
-
-    private final DoctorService doctorService;
-
-    public HelloControllerImpl(UserService userService,
-                               DoctorService doctorService) {
-        this.userService = userService;
-        this.doctorService = doctorService;
-        userService.addUser(new User(null,
-                "user123",
-                "qwerty",
-                "Иванов Петр Петрович",
-                "87775553535",
-                "iv123@gmail.com"));
-    }
 
     @Override
     @GetMapping("/start")

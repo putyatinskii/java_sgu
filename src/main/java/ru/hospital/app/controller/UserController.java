@@ -1,6 +1,7 @@
 package ru.hospital.app.controller;
 
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import ru.hospital.app.model.Appointment;
 import ru.hospital.app.model.Record;
 import ru.hospital.app.model.Speciality;

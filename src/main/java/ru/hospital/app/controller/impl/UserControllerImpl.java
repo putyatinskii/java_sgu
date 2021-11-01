@@ -1,8 +1,6 @@
 package ru.hospital.app.controller.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +21,6 @@ public class UserControllerImpl implements UserController {
     private final UserService userService;
 
     @Override
-    @RequestMapping()
-    public List<Record> checkFreeTime(String doctorName, Speciality doctorType, Integer period) {
-        return null;
-    }
-
-    @Override
     @GetMapping(value = "/user")
     public String getUsersignUpForm() {
         return "userSignUp";
@@ -43,24 +35,22 @@ public class UserControllerImpl implements UserController {
     @Override
     @PostMapping(value = "/user")
     public String signUpForUser(@ModelAttribute("user") User user) {
-        userService.addUser(user);
-        return "start";
+            userService.addUser(user);
+            return "start";
     }
 
     @Override
     @GetMapping("/user/{id}")
     public String getUserInfo(@PathVariable UUID id, Model model) {
-        try {
-            User user = userService.getUserInfo(id);
-            model.addAttribute("name", user.getName());
-            model.addAttribute("login", user.getLogin());
-            model.addAttribute("phone", user.getNumber());
-            model.addAttribute("email", user.getEmail());
-            model.addAttribute("id", user.getId());
-            return "UserLk";
-        } catch (Exception e) {
-            return "redirect:/app/error";
-        }
+
+        User user = userService.getUserInfo(id);
+        model.addAttribute("name", user.getName());
+        model.addAttribute("login", user.getLogin());
+        model.addAttribute("phone", user.getNumber());
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("id", user.getId());
+        return "UserLk";
+
     }
 
     @Override
@@ -99,6 +89,12 @@ public class UserControllerImpl implements UserController {
     @Override
     public void createRecord(Record record, UUID userId) {
 
+    }
+
+    @Override
+    @RequestMapping()
+    public List<Record> checkFreeTime(String doctorName, Speciality doctorType, Integer period) {
+        return null;
     }
 
     @Override

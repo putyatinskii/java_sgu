@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface UserService {
     User addUser(User user);
 
-    User getUserInfo(UUID id) throws Exception;
+    User getUserInfo(UUID id);
 
     List<User> getAllUsers();
 
