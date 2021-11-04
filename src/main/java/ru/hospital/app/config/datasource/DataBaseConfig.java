@@ -1,4 +1,4 @@
-package ru.hospital.app.config;
+package ru.hospital.app.config.datasource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

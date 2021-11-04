@@ -1,16 +1,18 @@
 package ru.hospital.app.service;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.hospital.app.model.Appointment;
 import ru.hospital.app.model.Record;
 import ru.hospital.app.model.Speciality;
 import ru.hospital.app.model.User;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
     User addUser(User user);
+
+    User findByName(String name);
 
     User getUserInfo(UUID id);
 
@@ -20,11 +22,9 @@ public interface UserService {
 
     void deleteUser(UUID id) throws Exception;
 
-    User checkUser(String login, String password) throws Exception;
-
     List<Record> checkFreeTime(String doctorName, Speciality doctorType, Integer period);
 
-    void createRecord(Record record, UUID userId) throws Exception;
+    void createRecord(UUID recordId, UUID userId) throws Exception;
 
     List<Appointment> getFutureAppointments(UUID userId);
 

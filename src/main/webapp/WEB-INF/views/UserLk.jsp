@@ -21,6 +21,10 @@
     <form action="/app/user/${id}" method="post">
         <input type="submit" value="Удалить пользователя" />
     </form>
+    <form action="/app/logout" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <input type="submit" value="Выйти" />
+    </form>
 </div>
 </body>
 </html>

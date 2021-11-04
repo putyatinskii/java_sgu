@@ -32,5 +32,5 @@ public class Appointment {
     private Boolean isClosed;
 
     @Column(name= "is_visit")
-    private Boolean isVisit;
+    private Boolean isVisited;
 }

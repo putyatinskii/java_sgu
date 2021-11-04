@@ -7,7 +7,7 @@
     </head>
     <h2 align="center">Error: "Ошибка при вводе данных"</h2>
     <hr>
-    <form action="start" method="get">
+    <form action="/app/start" method="get">
         <input type="submit" value="Назад" />
     </form>
 </body>

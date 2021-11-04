@@ -1,7 +1,11 @@
 package ru.hospital.app.controller.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,21 +40,5 @@ public class HelloControllerImpl implements HelloController {
     @GetMapping(value = "/error")
     public String errorPage() {
         return "errorPage";
-    }
-
-    @Override
-    @PostMapping(value = "/sign-in")
-    public String signIn(HttpServletRequest request) {
-        if (request.getParameter("isDoctor") == null) {
-            User user;
-            try {
-                user = userService.checkUser(request.getParameter("login"), request.getParameter("password"));
-            } catch (Exception e) {
-                return "redirect:/error";
-            }
-            return "redirect:" + "/user/" + user.getId();
-        } else {
-            return null;
-        }
     }
 }

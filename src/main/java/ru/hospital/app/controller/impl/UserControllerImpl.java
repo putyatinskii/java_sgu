@@ -1,6 +1,8 @@
 package ru.hospital.app.controller.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,22 +23,23 @@ public class UserControllerImpl implements UserController {
     private final UserService userService;
 
     @Override
-    @GetMapping(value = "/user")
+    @GetMapping(value = "/user-sign-up")
     public String getUsersignUpForm() {
         return "userSignUp";
     }
 
     @Override
-    @GetMapping(value = "/user/{id}/update")
-    public String getUserUpdateForm() {
-        return "updateUser";
+    @PostMapping(value = "/user-sign-up")
+    public String signUpForUser(@ModelAttribute("user") User user) {
+        userService.addUser(user);
+        return "redirect:/start";
     }
 
-    @Override
-    @PostMapping(value = "/user")
-    public String signUpForUser(@ModelAttribute("user") User user) {
-            userService.addUser(user);
-            return "start";
+    @GetMapping(value = "/user")
+    public String redirect() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByName(auth.getName());
+        return "redirect:/user/" + user.getId();
     }
 
     @Override
@@ -51,6 +54,12 @@ public class UserControllerImpl implements UserController {
         model.addAttribute("id", user.getId());
         return "UserLk";
 
+    }
+
+    @Override
+    @GetMapping(value = "/user/{id}/update")
+    public String getUserUpdateForm() {
+        return "updateUser";
     }
 
     @Override
@@ -79,7 +88,7 @@ public class UserControllerImpl implements UserController {
     public String deleteUser(@PathVariable UUID id) {
         try {
             userService.deleteUser(id);
-            return "redirect:/start";
+            return "redirect:/logout";
         } catch (Exception e) {
             return "redirect:/error";
         }

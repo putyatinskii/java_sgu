@@ -9,10 +9,10 @@
 <%@ page contentType="text/html;charset=utf-8" %>
 <h1 align="center">Сайт больницы</h1>
 <div align="center">
-    <form action="start" method="get">
+    <form action="doctor-sign-up" method="get">
         <input type="submit" value="Зарегистрироаться как доктор" />
     </form>
-    <form action="user" method="get">
+    <form action="user-sign-up" method="get">
         <input type="submit" value="Зарегистрироаться как пациент" />
     </form>
     <form action="sign-in" method="get">

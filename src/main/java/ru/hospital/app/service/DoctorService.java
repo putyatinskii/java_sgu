@@ -18,8 +18,7 @@ public interface DoctorService {
 
     void deleteDoctor(UUID id) throws Exception;
 
-
-    Doctor checkDoctor(String login, String password) throws Exception;
+    Doctor findByName(String name);
 
     List<Record> getTodayRecords(UUID doctorId);
 
