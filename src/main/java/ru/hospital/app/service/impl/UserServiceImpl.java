@@ -6,9 +6,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.hospital.app.dto.UserDto;
 import ru.hospital.app.model.*;
 import ru.hospital.app.model.Record;
 import ru.hospital.app.repository.AppointmentRepository;
+import ru.hospital.app.repository.LoginRepository;
 import ru.hospital.app.repository.RecordRepository;
 import ru.hospital.app.repository.UserRepository;
 import ru.hospital.app.service.UserService;
@@ -30,15 +32,25 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final LoginRepository loginRepository;
+
     @Override
-    public User addUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public User addUser(UserDto userDto) {
+        Login login = new Login(null, userDto.getLogin(), null, null);
+        User user = new User(null,
+                login,
+                passwordEncoder.encode(userDto.getPassword()),
+                userDto.getName(),
+                userDto.getNumber(),
+                userDto.getEmail(),
+                null);
         return userRepository.save(user);
     }
 
     @Override
     public User findByName(String login) {
-        return userRepository.findUserByLogin(login).orElse(null);
+        Login login1 = loginRepository.getLoginByLogin(login).orElse(null);
+        return userRepository.findUserByLogin(login1).orElse(null);
     }
 
     @Override
@@ -52,8 +64,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public User updateUser(UserDto userDto, UUID id) {
+        User user = userRepository.getById(id);
+        if (userDto.getPassword() != null && !"".equals(userDto.getPassword())) {
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+        if (userDto.getLogin() != null && !"".equals(userDto.getLogin())) {
+            Login userLogin = loginRepository.getById(user.getLogin().getId());
+            if (!userLogin.getLogin().equals(userDto.getLogin())) {
+                userLogin.setLogin(userDto.getLogin());
+                user.setLogin(userLogin);
+            }
+        }
+        if (userDto.getName() != null && !"".equals(userDto.getName())) {
+            user.setName(userDto.getName());
+        }
+        if (userDto.getEmail() != null && !"".equals(userDto.getEmail())) {
+            user.setEmail(userDto.getEmail());
+        }
+        if (userDto.getNumber() != null && !"".equals(userDto.getNumber())) {
+            user.setNumber(userDto.getNumber());
+        }
         return userRepository.save(user);
     }
 
@@ -96,15 +127,5 @@ public class UserServiceImpl implements UserService {
 //            return appointmentRepository.findAppointmentByUserAndIsClosedFalse(userId);
 //        }
         return null;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = userRepository.findUserByLogin(login).orElseThrow(() -> new UsernameNotFoundException(login));
-        return new org.springframework.security.core.userdetails.User(
-                user.getName(),
-                user.getPassword(),
-                List.of(Role.USER)
-        );
     }
 }

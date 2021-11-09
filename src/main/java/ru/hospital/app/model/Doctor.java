@@ -3,6 +3,7 @@ package ru.hospital.app.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,7 +19,9 @@ public class Doctor {
     @GeneratedValue
     private UUID id;
 
-    private String login;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "login_id", referencedColumnName = "id")
+    private Login login;
 
     private String password;
 
@@ -34,4 +37,16 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor")
     private List<Record> records;
+
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "login=" + login +
+                ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                ", email='" + email + '\'' +
+                ", speciality=" + speciality +
+                ", experience='" + experience + '\'' +
+                '}';
+    }
 }

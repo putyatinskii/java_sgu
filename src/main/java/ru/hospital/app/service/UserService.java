@@ -1,6 +1,7 @@
 package ru.hospital.app.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
+import ru.hospital.app.dto.UserDto;
 import ru.hospital.app.model.Appointment;
 import ru.hospital.app.model.Record;
 import ru.hospital.app.model.Speciality;
@@ -9,8 +10,8 @@ import ru.hospital.app.model.User;
 import java.util.List;
 import java.util.UUID;
 
-public interface UserService extends UserDetailsService {
-    User addUser(User user);
+public interface UserService {
+    User addUser(UserDto userDto);
 
     User findByName(String name);
 
@@ -18,7 +19,7 @@ public interface UserService extends UserDetailsService {
 
     List<User> getAllUsers();
 
-    User updateUser(User user) throws Exception;
+    User updateUser(UserDto userDto, UUID id) throws Exception;
 
     void deleteUser(UUID id) throws Exception;
 

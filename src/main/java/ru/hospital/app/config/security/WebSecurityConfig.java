@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/sign-in")
                 .failureUrl("/sign-in?error")
                 .loginProcessingUrl("/sign-in")
-                .defaultSuccessUrl("/user")
+                .defaultSuccessUrl("/client")
                 .usernameParameter("login")
                 .passwordParameter("password")
                 .permitAll()
@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/start")
                 .logoutUrl("/logout")
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID").permitAll();
+                .deleteCookies("auth_code", "JSESSIONID").permitAll();
 
     }
 

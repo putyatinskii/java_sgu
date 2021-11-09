@@ -2,6 +2,8 @@ package ru.hospital.app.controller;
 
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import ru.hospital.app.dto.UserDto;
 import ru.hospital.app.model.Appointment;
 import ru.hospital.app.model.Record;
 import ru.hospital.app.model.Speciality;
@@ -13,15 +15,15 @@ import java.util.UUID;
 public interface UserController {
     String getUsersignUpForm();
 
-    String getUserUpdateForm();
+    String getUserUpdateForm(Model model, UUID id);
 
-    String signUpForUser(User user);
+    String signUpForUser(UserDto user);
 
     String getUserInfo(UUID id, Model model);
 
     String getAllUsers(UUID id, Model model);
 
-    String updateUser(User user, UUID id);
+    String updateUser(UserDto userDto, UUID id);
 
     String deleteUser(UUID id);
 

@@ -1,12 +1,11 @@
 package ru.hospital.app.controller.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.hospital.app.controller.UserController;
+import ru.hospital.app.dto.UserDto;
 import ru.hospital.app.model.Appointment;
 import ru.hospital.app.model.Record;
 import ru.hospital.app.model.Speciality;
@@ -30,16 +29,9 @@ public class UserControllerImpl implements UserController {
 
     @Override
     @PostMapping(value = "/user-sign-up")
-    public String signUpForUser(@ModelAttribute("user") User user) {
-        userService.addUser(user);
+    public String signUpForUser(@ModelAttribute("userDto") UserDto userDto) {
+        userService.addUser(userDto);
         return "redirect:/start";
-    }
-
-    @GetMapping(value = "/user")
-    public String redirect() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByName(auth.getName());
-        return "redirect:/user/" + user.getId();
     }
 
     @Override
@@ -58,7 +50,8 @@ public class UserControllerImpl implements UserController {
 
     @Override
     @GetMapping(value = "/user/{id}/update")
-    public String getUserUpdateForm() {
+    public String getUserUpdateForm(Model model, @PathVariable UUID id) {
+        model.addAttribute("id", id);
         return "updateUser";
     }
 
@@ -68,15 +61,14 @@ public class UserControllerImpl implements UserController {
         List<User> list = userService.getAllUsers();
         model.addAttribute("list", list);
         model.addAttribute("id", id);
-        return "list";
+        return "Users";
     }
 
     @Override
     @PostMapping("/user/{id}/update")
-    public String updateUser(@ModelAttribute("user") User user, @PathVariable UUID id) {
-        user.setId(id);
+    public String updateUser(@ModelAttribute("userDto") UserDto userDto, @PathVariable UUID id) {
         try {
-            userService.updateUser(user);
+            userService.updateUser(userDto, id);
             return "redirect:/user/" + id;
         } catch (Exception e) {
             return "redirect:/error";
@@ -92,7 +84,6 @@ public class UserControllerImpl implements UserController {
         } catch (Exception e) {
             return "redirect:/error";
         }
-
     }
 
     @Override

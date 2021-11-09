@@ -11,7 +11,7 @@
 <c:if test="${param.error != null}">
     <p>Логин, телефон и почта должны быть уникальными</p>
 </c:if>
-<form action="doctor-sign-up" method="post" modelAttribute="doctor">
+<form action="doctor-sign-up" method="post" modelAttribute="doctorDto">
     <table>
 		<tr>
 			<td>Логин:</td>

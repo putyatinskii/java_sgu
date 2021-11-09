@@ -18,7 +18,9 @@ public class User {
     @GeneratedValue
     private UUID id;
 
-    private String login;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "login_id", referencedColumnName = "id")
+    private Login login;
 
     private String password;
 
@@ -33,8 +35,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "User: " +
-                "login='" + login + '\'' +
+        return "User{" +
+                "login=" + login.getLogin() +
                 ", name='" + name + '\'' +
                 ", number='" + number + '\'' +
                 ", email='" + email + '\'' +

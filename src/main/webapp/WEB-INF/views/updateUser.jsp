@@ -7,7 +7,7 @@
 <body>
 <%@ page contentType="text/html;charset=utf-8" %>
 <h1 align="center">Редактирование профиля</h1>
-<form action="" method="post" modelAttribute="user">
+<form action="" method="post" modelAttribute="userDto">
     <table>
 		<tr>
 			<td>Логин:</td>

@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page contentType="text/html;charset=utf-8" %>
 <html>
 <head>
@@ -6,11 +7,8 @@
     <title>HospitalApp</title>
 </head>
 <body>
-<h1 align="center">Заполните информацию о себе</h1>
-<c:if test="${param.error != null}">
-    <p>Логин, телефон и почта должны быть уникальными</p>
-</c:if>
-<form action="user-sign-up" method="post" modelAttribute="userDto">
+<h1 align="center">Редактирование профиля</h1>
+<form action="" method="post" modelAttribute="doctorDto">
     <table>
 		<tr>
 			<td>Логин:</td>
@@ -32,8 +30,16 @@
             <td>Email:</td>
             <td><input type="text" name="email" /></td>
         </tr>
+        <tr>
+            <td>Опыт:</td>
+            <td><input type="text" name="experience" /></td>
+        </tr>
 	</table>
-    <input type="submit" value="Зарегистрироваться" />
+    <input type="submit" value="Сохранить изменения" />
+</form>
+<form action="/app/doctor/${id}" method="get">
+    <input type="submit" value="Назад" />
+</form>
 </body>
 
 </html>
