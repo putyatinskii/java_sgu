@@ -57,11 +57,6 @@ public class DoctorServiceImpl implements DoctorService {
         if (doctorDto.getPassword() != null && !"".equals(doctorDto.getPassword())) {
             doctor.setPassword(passwordEncoder.encode(doctorDto.getPassword()));
         }
-        if (doctorDto.getLogin() != null && !"".equals(doctorDto.getLogin())) {
-            Login userLogin = loginRepository.getById(doctor.getLogin().getId());
-            userLogin.setLogin(doctorDto.getLogin());
-            loginRepository.save(userLogin);
-        }
         if (doctorDto.getName() != null && !"".equals(doctorDto.getName())) {
             doctor.setName(doctorDto.getName());
         }

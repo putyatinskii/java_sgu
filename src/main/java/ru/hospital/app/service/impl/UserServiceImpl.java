@@ -69,13 +69,6 @@ public class UserServiceImpl implements UserService {
         if (userDto.getPassword() != null && !"".equals(userDto.getPassword())) {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
-        if (userDto.getLogin() != null && !"".equals(userDto.getLogin())) {
-            Login userLogin = loginRepository.getById(user.getLogin().getId());
-            if (!userLogin.getLogin().equals(userDto.getLogin())) {
-                userLogin.setLogin(userDto.getLogin());
-                user.setLogin(userLogin);
-            }
-        }
         if (userDto.getName() != null && !"".equals(userDto.getName())) {
             user.setName(userDto.getName());
         }

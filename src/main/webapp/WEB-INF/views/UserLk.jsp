@@ -12,13 +12,13 @@
     <p>Логин: "${login}"</p>
     <p>Телефон: "${phone}"</p>
     <p>Эл. почта: "${email}"</p>
-    <form action="/app/user/${id}/all" method="get">
+    <form action="/app/user/home/all" method="get">
         <input type="submit" value="Посмотреть список всех пользователей" />
     </form>
-    <form action="/app/user/${id}/update" method="get">
+    <form action="/app/user/home/update" method="get">
         <input type="submit" value="Отредактировать информацию о себе" />
     </form>
-    <form action="/app/user/${id}" method="post">
+    <form action="/app/user/home" method="post">
         <input type="submit" value="Удалить пользователя" />
     </form>
     <form action="/app/logout" method="post">

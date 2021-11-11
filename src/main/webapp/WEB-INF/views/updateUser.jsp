@@ -10,10 +10,6 @@
 <form action="" method="post" modelAttribute="userDto">
     <table>
 		<tr>
-			<td>Логин:</td>
-			<td><input type="text" name="login" /></td>
-		</tr>
-		<tr>
 			<td>Пароль:</td>
 			<td><input type="password" name="password" /></td>
 		</tr>
@@ -32,7 +28,7 @@
 	</table>
     <input type="submit" value="Сохранить изменения" />
 </form>
-<form action="/app/user/${id}" method="get">
+<form action="/app/user/home" method="get">
     <input type="submit" value="Назад" />
 </form>
 </body>

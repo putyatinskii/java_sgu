@@ -31,15 +31,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findUserByLogin(login1).orElse(null);
         if (user != null) {
             return new org.springframework.security.core.userdetails.User(
-                    user.getName(),
+                    user.getLogin().getLogin(),
                     user.getPassword(),
                     List.of(Role.USER)
             );
-        }
-        else {
+        } else {
             Doctor doctor = doctorRepository.findDoctorByLogin(login1).orElseThrow(() -> new UsernameNotFoundException(login));
             return new org.springframework.security.core.userdetails.User(
-                    doctor.getName(),
+                    doctor.getLogin().getLogin(),
                     doctor.getPassword(),
                     List.of(Role.DOCTOR)
             );

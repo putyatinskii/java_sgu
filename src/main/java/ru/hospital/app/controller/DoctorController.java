@@ -8,6 +8,7 @@ import ru.hospital.app.model.Appointment;
 import ru.hospital.app.model.Doctor;
 import ru.hospital.app.model.Record;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -18,15 +19,15 @@ public interface DoctorController {
 
     String signUpForDoctor(DoctorDto doctorDto);
 
-    String getDoctorUpdateForm(Model model, UUID id);
+    String getDoctorUpdateForm();
 
-    String getDoctorInfo(UUID id, Model model);
+    String getDoctorInfo(Model model);
 
-    String getAllDoctors(UUID id, Model model);
+    String getAllDoctors(Model model);
 
-    String updateDoctor(DoctorDto doctorDto, UUID id);
+    String updateDoctor(DoctorDto doctorDto);
 
-    String deleteDoctor(UUID id);
+    String deleteDoctor();
 
     List<Record> getTodayRecords(UUID doctorId);
 

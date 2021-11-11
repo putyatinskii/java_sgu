@@ -25,10 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class HelloControllerImpl implements HelloController {
 
-    private final UserService userService;
-
-    private final DoctorService doctorService;
-
     @Override
     @GetMapping("/start")
     public String start() {
@@ -51,11 +47,9 @@ public class HelloControllerImpl implements HelloController {
     public String redirect() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.getAuthorities().contains(Role.USER)) {
-            User user = userService.findByName(auth.getName());
-            return "redirect:/user/" + user.getId();
+            return "redirect:/user/home";
         } else {
-            Doctor doctor = doctorService.findByName(auth.getName());
-            return "redirect:/doctor/" + doctor.getId();
+            return "redirect:/doctor/home";
         }
     }
 }

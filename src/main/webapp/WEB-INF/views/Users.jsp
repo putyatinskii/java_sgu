@@ -10,7 +10,7 @@
     <h1>Список всех пользователей:</h1>
     <p>"${list}"</p>
     <hr>
-    <form action="/app/user/${id}" method="get">
+    <form action="/app/user/home" method="get">
             <input type="submit" value="Назад" />
     </form>
 </div>

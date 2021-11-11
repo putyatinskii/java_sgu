@@ -9,23 +9,24 @@ import ru.hospital.app.model.Record;
 import ru.hospital.app.model.Speciality;
 import ru.hospital.app.model.User;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
 public interface UserController {
     String getUsersignUpForm();
 
-    String getUserUpdateForm(Model model, UUID id);
+    String getUserUpdateForm(Model model);
 
     String signUpForUser(UserDto user);
 
-    String getUserInfo(UUID id, Model model);
+    String getUserInfo(Model model);
 
-    String getAllUsers(UUID id, Model model);
+    String getAllUsers(Model model);
 
-    String updateUser(UserDto userDto, UUID id);
+    String updateUser(UserDto userDto);
 
-    String deleteUser(UUID id);
+    String deleteUser();
 
     List<Record> checkFreeTime(String doctorName, Speciality doctorType, Integer period);
 

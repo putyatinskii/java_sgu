@@ -1,9 +1,13 @@
 package ru.hospital.app.controller.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.hospital.app.controller.UserController;
 import ru.hospital.app.dto.UserDto;
 import ru.hospital.app.model.Appointment;
@@ -35,10 +39,9 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    @GetMapping("/user/{id}")
-    public String getUserInfo(@PathVariable UUID id, Model model) {
-
-        User user = userService.getUserInfo(id);
+    @GetMapping("/user/home")
+    public String getUserInfo(Model model) {
+        User user = userService.findByName(SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("name", user.getName());
         model.addAttribute("login", user.getLogin());
         model.addAttribute("phone", user.getNumber());
@@ -49,37 +52,37 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    @GetMapping(value = "/user/{id}/update")
-    public String getUserUpdateForm(Model model, @PathVariable UUID id) {
-        model.addAttribute("id", id);
+    @GetMapping(value = "/user/home/update")
+    public String getUserUpdateForm(Model model) {
         return "updateUser";
     }
 
     @Override
-    @GetMapping("/user/{id}/all")
-    public String getAllUsers(@PathVariable UUID id, Model model) {
+    @GetMapping("/user/home/all")
+    public String getAllUsers(Model model) {
         List<User> list = userService.getAllUsers();
         model.addAttribute("list", list);
-        model.addAttribute("id", id);
         return "Users";
     }
 
     @Override
-    @PostMapping("/user/{id}/update")
-    public String updateUser(@ModelAttribute("userDto") UserDto userDto, @PathVariable UUID id) {
+    @PostMapping("/user/home/update")
+    public String updateUser(@ModelAttribute("userDto") UserDto userDto) {
         try {
-            userService.updateUser(userDto, id);
-            return "redirect:/user/" + id;
+            User user = userService.findByName(SecurityContextHolder.getContext().getAuthentication().getName());
+            userService.updateUser(userDto, user.getId());
+            return "redirect:/user/home";
         } catch (Exception e) {
             return "redirect:/error";
         }
     }
 
     @Override
-    @PostMapping("/user/{id}")
-    public String deleteUser(@PathVariable UUID id) {
+    @PostMapping("/user/home")
+    public String deleteUser() {
         try {
-            userService.deleteUser(id);
+            User user = userService.findByName(SecurityContextHolder.getContext().getAuthentication().getName());
+            userService.deleteUser(user.getId());
             return "redirect:/logout";
         } catch (Exception e) {
             return "redirect:/error";

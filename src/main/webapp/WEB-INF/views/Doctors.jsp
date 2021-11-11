@@ -10,7 +10,7 @@
     <h1>Список всех врачей:</h1>
     <p>"${list}"</p>
     <hr>
-    <form action="/app/doctor/${id}" method="get">
+    <form action="/app/doctor/home" method="get">
             <input type="submit" value="Назад" />
     </form>
 </div>

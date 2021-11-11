@@ -1,11 +1,11 @@
 package ru.hospital.app.controller.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.hospital.app.controller.DoctorController;
 import ru.hospital.app.dto.DoctorDto;
@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,16 +42,15 @@ public class DoctorControllerImpl implements DoctorController {
     }
 
     @Override
-    @GetMapping(value = "/doctor/{id}/update")
-    public String getDoctorUpdateForm(Model model, @PathVariable UUID id) {
-        model.addAttribute("id", id);
+    @GetMapping(value = "/doctor/home/update")
+    public String getDoctorUpdateForm() {
         return "updateDoctor";
     }
 
     @Override
-    @GetMapping("/doctor/{id}")
-    public String getDoctorInfo(@PathVariable UUID id, Model model) {
-        Doctor doctor = doctorService.getDoctorInfo(id);
+    @GetMapping("/doctor/home")
+    public String getDoctorInfo(Model model) {
+        Doctor doctor = doctorService.findByName(SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("name", doctor.getName());
         model.addAttribute("login", doctor.getLogin());
         model.addAttribute("phone", doctor.getNumber());
@@ -62,30 +62,31 @@ public class DoctorControllerImpl implements DoctorController {
     }
 
     @Override
-    @GetMapping("/doctor/{id}/all")
-    public String getAllDoctors(@PathVariable UUID id, Model model) {
+    @GetMapping("/doctor/home/all")
+    public String getAllDoctors(Model model) {
         List<Doctor> list = doctorService.getAllDoctors();
         model.addAttribute("list", list);
-        model.addAttribute("id", id);
         return "Doctors";
     }
 
     @Override
-    @PostMapping("/doctor/{id}/update")
-    public String updateDoctor(@ModelAttribute("doctorDto") DoctorDto doctorDto, @PathVariable UUID id) {
+    @PostMapping("/doctor/home/update")
+    public String updateDoctor(@ModelAttribute("doctorDto") DoctorDto doctorDto) {
         try {
-            doctorService.updateDoctor(doctorDto, id);
-            return "redirect:/doctor/" + id;
+            Doctor doctor = doctorService.findByName(SecurityContextHolder.getContext().getAuthentication().getName());
+            doctorService.updateDoctor(doctorDto, doctor.getId());
+            return "redirect:/doctor/home";
         } catch (Exception e) {
             return "redirect:/error";
         }
     }
 
     @Override
-    @PostMapping("doctor/{id}")
-    public String deleteDoctor(@PathVariable UUID id) {
+    @PostMapping("doctor/home")
+    public String deleteDoctor() {
         try {
-            doctorService.deleteDoctor(id);
+            Doctor doctor = doctorService.findByName(SecurityContextHolder.getContext().getAuthentication().getName());
+            doctorService.deleteDoctor(doctor.getId());
             return "redirect:/logout";
         } catch (Exception e) {
             return "redirect:/error";
