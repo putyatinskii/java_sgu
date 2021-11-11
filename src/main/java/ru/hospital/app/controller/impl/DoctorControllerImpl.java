@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.hospital.app.controller.DoctorController;
 import ru.hospital.app.dto.DoctorDto;
-import ru.hospital.app.model.*;
+import ru.hospital.app.model.Appointment;
+import ru.hospital.app.model.Doctor;
 import ru.hospital.app.model.Record;
+import ru.hospital.app.model.Speciality;
 import ru.hospital.app.service.DoctorService;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
